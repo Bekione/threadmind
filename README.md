@@ -1,6 +1,6 @@
 # ThreadMind
 
-![ThreadMind Logo](ThreadMind-Logo.png)
+![ThreadMind Logo](./ThreadMind-Logo.png)
 
 **Version: 1.0.0** | **Bot**: [@ThreadMindBot](https://t.me/ThreadMindBot) | Built by [@Groots23](https://t.me/Groots23)
 
