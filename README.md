@@ -1,6 +1,6 @@
 # ThreadMind
 
-![ThreadMind Logo](./ThreadMind-Logo.png)
+<img src="./ThreadMind-Logo.png" alt="ThreadMind Logo" width="200" height="200">
 
 **Version: 1.0.0** | **Bot**: [@ThreadMindBot](https://t.me/ThreadMindBot) | Built by [@Groots23](https://t.me/Groots23)
 
