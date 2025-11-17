@@ -5,19 +5,26 @@ from typing import Any, Dict, List
 
 def _markdown_to_html(text: str) -> str:
     """Convert markdown formatting to HTML for Telegram."""
+    # Escape HTML special chars first (but not our tags)
+    text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    
     # Convert ### headers to <b>
-    text = re.sub(r"^### (.+)$", r"<b>\1</b>", text, flags=re.MULTILINE)
+    text = re.sub(r"^### (.+?)$", r"<b>\1</b>", text, flags=re.MULTILINE)
     # Convert ## headers to <b>
-    text = re.sub(r"^## (.+)$", r"<b>\1</b>", text, flags=re.MULTILINE)
+    text = re.sub(r"^## (.+?)$", r"<b>\1</b>", text, flags=re.MULTILINE)
     # Convert # headers to <b>
-    text = re.sub(r"^# (.+)$", r"<b>\1</b>", text, flags=re.MULTILINE)
-    # Convert **bold** to <b>bold</b>
+    text = re.sub(r"^# (.+?)$", r"<b>\1</b>", text, flags=re.MULTILINE)
+    # Convert **bold** to <b>bold</b> (non-greedy)
     text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
-    # Convert *italic* to <i>italic</i>
-    text = re.sub(r"\*(.+?)\*", r"<i>\1</i>", text)
+    # Convert *italic* to <i>italic</i> (non-greedy, but avoid matching ** patterns)
+    text = re.sub(r"(?<!\*)\*([^*]+?)\*(?!\*)", r"<i>\1</i>", text)
     # Convert `code` to <code>code</code>
     text = re.sub(r"`(.+?)`", r"<code>\1</code>", text)
-    # Convert - bullet points (keep as is, just ensure newlines)
+    # Unescape our HTML tags
+    text = text.replace("&lt;b&gt;", "<b>").replace("&lt;/b&gt;", "</b>")
+    text = text.replace("&lt;i&gt;", "<i>").replace("&lt;/i&gt;", "</i>")
+    text = text.replace("&lt;code&gt;", "<code>").replace("&lt;/code&gt;", "</code>")
+    
     return text
 
 

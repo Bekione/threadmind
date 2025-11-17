@@ -15,13 +15,13 @@ See [CHANGELOG.md](CHANGELOG.md) for version history and roadmap.
 
 ```mermaid
 flowchart LR
-    TBOT[Telegram Bot (PTB)] -->|HTTP| API[FastAPI Gateway]
-    API -->|enqueue| Q[Redis + Celery]
-    Q -->|dispatch| W[Worker Pool (Celery)]
-    W -->|invoke| AI[AI Engine Service]
-    AI -->|persist| DB[(PostgreSQL)]
+    TBOT["Telegram Bot<br/>(PTB)"] -->|HTTP| API["FastAPI<br/>Gateway"]
+    API -->|enqueue| Q["Redis<br/>Celery"]
+    Q -->|dispatch| W["Worker<br/>Pool"]
+    W -->|invoke| AI["AI Engine<br/>Service"]
+    AI -->|persist| DB[("PostgreSQL")]
     API -->|read| DB
-    TBOT -->|poll result| API
+    TBOT -->|poll| API
 ```
 
 Layers are fully isolated:
