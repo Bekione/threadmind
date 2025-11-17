@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.0] - 2025-11-17
 
-summarize` commands
+**Telegram Bot**: [@ThreadMindBot](https://t.me/ThreadMindBot)
+
+### Added
+- ✨ Real Telegram thread fetching via Telethon (replaces mocking)
+- 🤖 Fully functional Telegram bot with `/start`, `/help`, `/summarize` commands
 - 📝 AI-powered thread summarization (OpenAI & Gemini support)
 - ⭐ Intelligent highlight extraction from discussions
 - 💾 PostgreSQL persistence for jobs and users
@@ -16,6 +20,7 @@ summarize` commands
 - 🧪 Full test coverage for API endpoints
 - 📱 Forwarded post detection and URL parsing
 - 💰 Token usage and cost tracking
+- 🎨 Beautiful HTML-formatted responses with proper Telegram styling
 
 ### Features
 - **API Endpoints**:
@@ -38,7 +43,7 @@ summarize` commands
   - Database and Redis URLs
 
 ### Built by
-@Groots23
+[@Groots23](https://t.me/Groots23)
 
 ---
 

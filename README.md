@@ -1,6 +1,8 @@
 # ThreadMind
 
-**Version: 1.0.0** | Built by [@Groots23](https://t.me/Groots23)
+![ThreadMind Logo](ThreadMind-Logo.png)
+
+**Version: 1.0.0** | **Bot**: [@ThreadMindBot](https://t.me/ThreadMindBot) | Built by [@Groots23](https://t.me/Groots23)
 
 ThreadMind is an AI-powered Telegram bot that summarizes channel discussion threads, highlights insights, detects owner vs members, and returns structured summaries.
 
