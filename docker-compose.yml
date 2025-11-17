@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: threadmind_api
+    env_file:
+      - .env
+    environment:
+      - TZ=${TZ:-UTC}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: threadmind_worker
+    env_file:
+      - .env
+    environment:
+      - TZ=${TZ:-UTC}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./logs:/app/logs
+    command: celery -A app.queue.celery_app.celery worker --loglevel=INFO --concurrency=2
+    restart: unless-stopped
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: threadmind_bot
+    env_file:
+      - .env
+    environment:
+      - TZ=${TZ:-UTC}
+    depends_on:
+      - api
+    command: python -m app.bot.bot
+    restart: unless-stopped
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: threadmind_migrate
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: sh -lc "alembic -c alembic.ini upgrade head"
+    restart: "no"
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: threadmind_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: threadmind_postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
